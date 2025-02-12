@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/deepPublicGit/go-microservice/internal/handler"
 	"log/slog"
+	"net/http"
 	"os"
 
 	// This controls the maxprocs environment variable in container runtimes.
@@ -23,6 +25,18 @@ func main() {
 	if err := run(logger); err != nil {
 		logger.ErrorContext(context.Background(), "an error occurred", slog.String("error", err.Error()))
 		os.Exit(1)
+	}
+	homeHandler := handler.NewHandler(logger)
+	servMux := http.NewServeMux()
+	servMux.Handle("/", homeHandler)
+
+	server := &http.Server{
+		Addr:    ":8080",
+		Handler: servMux,
+	}
+	err := server.ListenAndServe()
+	if err != nil {
+		logger.ErrorContext(context.Background(), "an error occurred", slog.String("error", err.Error()))
 	}
 }
 
