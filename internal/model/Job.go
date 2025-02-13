@@ -3,13 +3,13 @@ package model
 import "time"
 
 type Job struct {
-	ID          int64
-	RoleName    string
-	Description string
-	LogoURL     string
-	Experience  int
-	CreatedOn   string
-	DeleteOn    string
+	ID          int64  `json:"id"`
+	RoleName    string `json:"roleName"`
+	Description string `json:"description"`
+	LogoURL     string `json:"logoUrl"`
+	Experience  int    `json:"experience"`
+	CreatedOn   string `json:"-"`
+	DeleteOn    string `json:"-"`
 }
 
 var JobList = []*Job{
