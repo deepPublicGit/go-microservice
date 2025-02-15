@@ -9,6 +9,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.34.0
 	go.uber.org/automaxprocs v1.6.0
 	golang.org/x/vuln v1.1.4
+	github.com/gorilla/mux v1.8.1
 )
 
 require (
