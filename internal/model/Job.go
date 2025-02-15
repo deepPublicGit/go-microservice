@@ -3,13 +3,16 @@ package model
 import "time"
 
 type Job struct {
-	ID          int64  `json:"id"`
-	RoleName    string `json:"roleName"`
-	Description string `json:"description"`
-	Experience  int    `json:"experience"`
-	CreatedOn   string `json:"-"`
-	UpdatedOn   string `json:"-"`
-	DeleteOn    string `json:"-"`
+	ID           int64    `json:"id"`
+	RoleName     string   `json:"roleName"`
+	Description  string   `json:"description"`
+	Experience   int      `json:"experience"`
+	Locations    []string `json:"locations"`
+	RemoteStatus int      `json:"remoteStatus"`
+	SalaryRange  []int    `json:"salaryRange"`
+	CreatedOn    string   `json:"-"`
+	UpdatedOn    string   `json:"-"`
+	DeleteOn     string   `json:"-"`
 }
 
 type Jobs []*Job
