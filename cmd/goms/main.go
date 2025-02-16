@@ -6,7 +6,9 @@ import (
 	"github.com/deepPublicGit/go-microservice/internal/handler"
 	"github.com/gorilla/mux"
 	"log/slog"
+	"net/http"
 	"os"
+	"time"
 
 	// This controls the maxprocs environment variable in container runtimes.
 	// see https://martin.baillie.id/wrote/gotchas-in-the-go-network-packages-defaults/#bonus-gomaxprocs-containers-and-the-cfs
@@ -26,21 +28,36 @@ func main() {
 		logger.ErrorContext(context.Background(), "an error occurred", slog.String("error", err.Error()))
 		os.Exit(1)
 	}
-	/*	homeHandler := handler.NewHandler(logger)
+	/*	homeHandler := handler.NewJobHandler(logger)
 		servMux := http.NewServeMux()
 		servMux.Handle("/", homeHandler)
 
 		server := &http.Server{
 			Addr:    ":8080",
-			Handler: servMux,
+			CompanyHandler: servMux,
 		}
 		err := server.ListenAndServe()
 		if err != nil {
 			logger.ErrorContext(context.Background(), "an error occurred", slog.String("error", err.Error()))
 		}*/
 	r := mux.NewRouter()
-	r.Handle("/", handler.NewHandler(logger))
+	r.Handle("/", handler.NewHomeHandler(logger))
 
+	r.Handle("/jobs", handler.NewJobHandler(logger))
+
+	r.Handle("/companies", handler.NewCompanyHandler(logger))
+
+	server := &http.Server{
+		Addr:         ":8080",
+		Handler:      r,
+		WriteTimeout: 30 * time.Second,
+		ReadTimeout:  30 * time.Second,
+	}
+
+	err := server.ListenAndServe()
+	if err != nil {
+		logger.ErrorContext(context.Background(), "an error occurred", slog.String("error", err.Error()))
+	}
 }
 
 func run(logger *slog.Logger) error {

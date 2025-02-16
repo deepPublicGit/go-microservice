@@ -1,9 +1,11 @@
 package model
 
-import "time"
+import (
+	"time"
+)
 
 type Job struct {
-	ID           int64    `json:"id"`
+	ID           int64    `json:"id" validate:"required"`
 	RoleName     string   `json:"roleName"`
 	Description  string   `json:"description"`
 	Experience   int      `json:"experience"`
@@ -16,6 +18,9 @@ type Job struct {
 }
 
 type Jobs []*Job
+
+func (j *Job) Validate() {
+}
 
 var JobList = []*Job{
 	&Job{
