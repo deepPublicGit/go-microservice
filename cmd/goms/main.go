@@ -40,16 +40,17 @@ func main() {
 		if err != nil {
 			logger.ErrorContext(context.Background(), "an error occurred", slog.String("error", err.Error()))
 		}*/
-	r := mux.NewRouter()
-	r.Handle("/", handler.NewHomeHandler(logger))
+	router := mux.NewRouter()
+	router.Handle("/", handler.NewHomeHandler(logger))
 
-	r.Handle("/jobs", handler.NewJobHandler(logger))
+	router.Handle("/jobs", handler.NewJobHandler(logger))
 
-	r.Handle("/companies", handler.NewCompanyHandler(logger))
-
+	router.Handle("/companies", handler.NewCompanyHandler(logger))
+	// Get, Get Batch, Post, Post Batch, Later Get Pagination, Patch single.
+	// Post Company, Get Company,Companies,Put,Patch
 	server := &http.Server{
 		Addr:         ":8080",
-		Handler:      r,
+		Handler:      router,
 		WriteTimeout: 30 * time.Second,
 		ReadTimeout:  30 * time.Second,
 	}

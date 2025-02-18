@@ -1,6 +1,6 @@
 # go-microservice
 
-Sample microservice implementation to explore go, grpc, service mesh
+Simple microservice implementation of ycombinator jobs portal to explore go, grpc, service mesh etc.
 
 The project uses `make` to make your life easier. If you're not familiar with Makefiles you can take a look at [this quickstart guide](https://makefiletutorial.com).
 
