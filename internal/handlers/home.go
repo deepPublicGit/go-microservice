@@ -15,8 +15,5 @@ func NewHomeHandler(l *slog.Logger) *HomeHandler {
 
 func (s *HomeHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	s.l.Info("YOLO RECEIVED", req.Header)
-	if req.Method == "GET" {
-		getJobs(rw)
 
-	}
 }

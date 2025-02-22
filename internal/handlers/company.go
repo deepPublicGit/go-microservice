@@ -18,7 +18,7 @@ func NewCompanies(l *slog.Logger) *Companies {
 func (s *Companies) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	s.l.Info("YOLO RECEIVED", req.Header)
 	if req.Method == "GET" {
-		getJobs(rw)
+		s.GetCompanies(rw, req)
 	}
 }
 
@@ -33,7 +33,7 @@ func (s *Companies) GetCompanies(rw http.ResponseWriter, req *http.Request) {
 }
 
 func (s *Companies) AddCompanies(rw http.ResponseWriter, req *http.Request) {
-	println("GET RECEIVED")
+	println("POST RECEIVED")
 	decoder := json.NewDecoder(req.Body)
 	_, err := decoder.Token()
 	if err != nil {

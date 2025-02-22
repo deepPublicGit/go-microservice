@@ -28,7 +28,7 @@ func main() {
 		logger.ErrorContext(context.Background(), "an error occurred", slog.String("error", err.Error()))
 		os.Exit(1)
 	}
-	/*	homeHandler := handlers.NewJobHandler(logger)
+	/*	homeHandler := handlers.NewJobs(logger)
 		servMux := http.NewServeMux()
 		servMux.Handle("/", homeHandler)
 
@@ -42,11 +42,15 @@ func main() {
 		}*/
 	router := mux.NewRouter()
 	router.Handle("/", handlers.NewHomeHandler(logger))
+	jh := handlers.NewJobs(logger)
 
-	jobsRouter := router.PathPrefix("/jobs").Subrouter()
-	jobsRouter.Handle("/", handlers.NewJobHandler(logger))
-	jobsRouter.Handle("/{id}", handlers.NewJobHandler(logger))
-	jobsRouter.Handle("/{id:[0-9]+}/company", handlers.NewJobHandler(logger))
+	jobsRouter := router.PathPrefix("/jobs").Methods("GET").Subrouter()
+	jobsRouter.HandleFunc("/", jh.GetJobs)
+	jobsRouter.Handle("/{id}", handlers.NewJobs(logger))
+	jobsRouter.Handle("/{id:[0-9]+}/company", handlers.NewJobs(logger))
+
+	jobsPostRouter := router.PathPrefix("/jobs").Methods("POST").Subrouter()
+	jobsPostRouter.HandleFunc("/", jh.AddJobs)
 
 	ch := handlers.NewCompanies(logger)
 	companiesRouter := router.PathPrefix("/companies").Methods("GET").Subrouter()

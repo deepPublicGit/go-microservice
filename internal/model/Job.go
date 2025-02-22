@@ -48,3 +48,7 @@ var JobList = []*Job{
 		CreatedOn:    time.Now().UTC().String(),
 	},
 }
+
+func AddJob(req Job) {
+	JobList = append(JobList, &req)
+}
