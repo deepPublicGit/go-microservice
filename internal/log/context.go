@@ -47,8 +47,8 @@ func defaultHandler() slog.Handler {
 	})
 }
 
-// Enabled reports whether the handler handles records at the given level.
-// The handler ignores records whose level is lower.
+// Enabled reports whether the handlers handles records at the given level.
+// The handlers ignores records whose level is lower.
 // It is called early, before any arguments are processed,
 // to save effort if the log event should be discarded.
 // If called from a Logger method, the first argument is the context

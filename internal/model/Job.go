@@ -4,6 +4,12 @@ import (
 	"time"
 )
 
+const (
+	Remote = iota
+	Hybrid
+	Office
+)
+
 type Job struct {
 	ID           int64    `json:"id" validate:"required"`
 	RoleName     string   `json:"roleName"`
@@ -24,17 +30,21 @@ func (j *Job) Validate() {
 
 var JobList = []*Job{
 	&Job{
-		ID:          1,
-		RoleName:    "Software Engineer",
-		Description: "Should be experienced with Python, Django, and SQL tech stack",
-		Experience:  3,
-		CreatedOn:   time.Now().UTC().String(),
+		ID:           1,
+		RoleName:     "Software Engineer",
+		Description:  "Should be experienced with Python, Django, and SQL tech stack",
+		Experience:   3,
+		RemoteStatus: Hybrid,
+		SalaryRange:  []int{30000, 50000},
+		CreatedOn:    time.Now().UTC().String(),
 	},
 	&Job{
-		ID:          2,
-		RoleName:    "Senior Frontend Engineer",
-		Description: "Should be cracked dev in TypeScript, Svelte, Vercel stack",
-		Experience:  3,
-		CreatedOn:   time.Now().UTC().String(),
+		ID:           2,
+		RoleName:     "Senior Frontend Engineer",
+		Description:  "Should be cracked dev in TypeScript, Svelte, Vercel stack",
+		Experience:   3,
+		RemoteStatus: Remote,
+		SalaryRange:  []int{100000, 200000},
+		CreatedOn:    time.Now().UTC().String(),
 	},
 }

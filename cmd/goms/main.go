@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/deepPublicGit/go-microservice/internal/handler"
+	"github.com/deepPublicGit/go-microservice/internal/handlers"
 	"github.com/gorilla/mux"
 	"log/slog"
 	"net/http"
@@ -28,7 +28,7 @@ func main() {
 		logger.ErrorContext(context.Background(), "an error occurred", slog.String("error", err.Error()))
 		os.Exit(1)
 	}
-	/*	homeHandler := handler.NewJobHandler(logger)
+	/*	homeHandler := handlers.NewJobHandler(logger)
 		servMux := http.NewServeMux()
 		servMux.Handle("/", homeHandler)
 
@@ -41,11 +41,20 @@ func main() {
 			logger.ErrorContext(context.Background(), "an error occurred", slog.String("error", err.Error()))
 		}*/
 	router := mux.NewRouter()
-	router.Handle("/", handler.NewHomeHandler(logger))
+	router.Handle("/", handlers.NewHomeHandler(logger))
+	jobsRouter := router.PathPrefix("/jobs").Subrouter()
+	jobsRouter.Handle("/", handlers.NewJobHandler(logger))
+	jobsRouter.Handle("/{id}", handlers.NewJobHandler(logger))
+	jobsRouter.Handle("/{id:[0-9]+}/company", handlers.NewJobHandler(logger))
 
-	router.Handle("/jobs", handler.NewJobHandler(logger))
+	router.Handle("/jobs", handlers.NewJobHandler(logger))
 
-	router.Handle("/companies", handler.NewCompanyHandler(logger))
+	companiesRouter := router.PathPrefix("/companies").Subrouter()
+	companiesRouter.Handle("/", handlers.NewCompanyHandler(logger))
+	companiesRouter.Handle("/{id}", handlers.NewCompanyHandler(logger))
+	companiesRouter.Handle("/{company}/jobs", handlers.NewCompanyHandler(logger))
+
+	router.Handle("/companies", handlers.NewCompanyHandler(logger))
 	// Get, Get Batch, Post, Post Batch, Later Get Pagination, Patch single.
 	// Post Company, Get Company,Companies,Put,Patch
 	server := &http.Server{
