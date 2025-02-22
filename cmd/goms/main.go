@@ -48,12 +48,14 @@ func main() {
 	jobsRouter.Handle("/{id}", handlers.NewJobHandler(logger))
 	jobsRouter.Handle("/{id:[0-9]+}/company", handlers.NewJobHandler(logger))
 
-	companyHandler := handlers.NewCompanies(logger)
-	companiesRouter := router.PathPrefix("/companies").Subrouter()
-	companiesRouter.HandleFunc("/", companyHandler.GetCompanies)
+	ch := handlers.NewCompanies(logger)
+	companiesRouter := router.PathPrefix("/companies").Methods("GET").Subrouter()
+	companiesRouter.HandleFunc("/", ch.GetCompanies)
 	companiesRouter.Handle("/{id}", handlers.NewCompanies(logger))
 	companiesRouter.Handle("/{company}/jobs", handlers.NewCompanies(logger))
 
+	companiesPostRouter := router.PathPrefix("/companies").Methods("POST").Subrouter()
+	companiesPostRouter.HandleFunc("/", ch.AddCompanies)
 	// Get, Get Batch, Post, Post Batch, Later Get Pagination, Patch single.
 	// Post Company, Get Company,Companies,Put,Patch
 	server := &http.Server{

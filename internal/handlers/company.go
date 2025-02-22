@@ -31,3 +31,27 @@ func (s *Companies) GetCompanies(rw http.ResponseWriter, req *http.Request) {
 	}
 
 }
+
+func (s *Companies) AddCompanies(rw http.ResponseWriter, req *http.Request) {
+	println("GET RECEIVED")
+	decoder := json.NewDecoder(req.Body)
+	_, err := decoder.Token()
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+	}
+	if decoder.More() {
+		var r model.Company
+		err := decoder.Decode(&r)
+		if err != nil {
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+		}
+		s.l.Info("AddCompanies", r)
+		model.AddCompany(r)
+		s.l.Info("AddCompanies", model.CompanyList)
+	}
+	_, err = decoder.Token()
+	if err != nil {
+		s.l.Error("YOLO ERROR", err.Error())
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+	}
+}

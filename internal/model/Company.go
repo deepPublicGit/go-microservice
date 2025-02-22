@@ -88,3 +88,7 @@ func getDummySocialMedia(name string) []SocialMedia {
 		DeletedOn:  time.Now().UTC().Format(time.RFC3339)})
 	return DummySocials
 }
+
+func AddCompany(req Company) {
+	CompanyList = append(CompanyList, &req)
+}
