@@ -34,7 +34,7 @@ func main() {
 
 		server := &http.Server{
 			Addr:    ":8080",
-			CompanyHandler: servMux,
+			Companies: servMux,
 		}
 		err := server.ListenAndServe()
 		if err != nil {
@@ -42,19 +42,18 @@ func main() {
 		}*/
 	router := mux.NewRouter()
 	router.Handle("/", handlers.NewHomeHandler(logger))
+
 	jobsRouter := router.PathPrefix("/jobs").Subrouter()
 	jobsRouter.Handle("/", handlers.NewJobHandler(logger))
 	jobsRouter.Handle("/{id}", handlers.NewJobHandler(logger))
 	jobsRouter.Handle("/{id:[0-9]+}/company", handlers.NewJobHandler(logger))
 
-	router.Handle("/jobs", handlers.NewJobHandler(logger))
-
+	companyHandler := handlers.NewCompanies(logger)
 	companiesRouter := router.PathPrefix("/companies").Subrouter()
-	companiesRouter.Handle("/", handlers.NewCompanyHandler(logger))
-	companiesRouter.Handle("/{id}", handlers.NewCompanyHandler(logger))
-	companiesRouter.Handle("/{company}/jobs", handlers.NewCompanyHandler(logger))
+	companiesRouter.HandleFunc("/", companyHandler.GetCompanies)
+	companiesRouter.Handle("/{id}", handlers.NewCompanies(logger))
+	companiesRouter.Handle("/{company}/jobs", handlers.NewCompanies(logger))
 
-	router.Handle("/companies", handlers.NewCompanyHandler(logger))
 	// Get, Get Batch, Post, Post Batch, Later Get Pagination, Patch single.
 	// Post Company, Get Company,Companies,Put,Patch
 	server := &http.Server{

@@ -7,28 +7,27 @@ import (
 	"net/http"
 )
 
-type CompanyHandler struct {
+type Companies struct {
 	l *slog.Logger
 }
 
-func NewCompanyHandler(l *slog.Logger) *CompanyHandler {
-	return &CompanyHandler{l: l}
+func NewCompanies(l *slog.Logger) *Companies {
+	return &Companies{l: l}
 }
 
-func (s *CompanyHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+func (s *Companies) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	s.l.Info("YOLO RECEIVED", req.Header)
 	if req.Method == "GET" {
 		getJobs(rw)
-
 	}
 }
 
-func getCompanies(rw http.ResponseWriter) {
+func (s *Companies) GetCompanies(rw http.ResponseWriter, req *http.Request) {
 	println("GET RECEIVED")
 	encoder := json.NewEncoder(rw)
-	err := encoder.Encode(model.JobList)
+	err := encoder.Encode(model.CompanyList)
 	if err != nil {
-		return
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
 	}
 
 }
