@@ -33,7 +33,7 @@ func RouterHandler(logger *slog.Logger) *mux.Router {
 	companiesPostRouter := router.PathPrefix("/companies").Methods("POST").Subrouter()
 	companiesPostRouter.HandleFunc("/", ch.AddCompanies)
 
-	companiesDeleteRouter := router.PathPrefix("/jobs").Methods("DELETE").Subrouter()
+	companiesDeleteRouter := router.PathPrefix("/companies").Methods("DELETE").Subrouter()
 	companiesDeleteRouter.HandleFunc("/{id:[0-9]+}", ch.DeleteCompanies)
 
 	return router

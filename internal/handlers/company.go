@@ -93,7 +93,7 @@ func (s *Companies) DeleteCompanies(rw http.ResponseWriter, req *http.Request) {
 		http.Error(rw, err.Error(), http.StatusBadRequest)
 	}
 
-	model.DeleteCompany(id)
+	model.DeleteCompany(id - 1)
 	rw.WriteHeader(http.StatusOK)
 	_, _ = fmt.Fprintf(rw, "Deleted %d Successfully", id)
 }
