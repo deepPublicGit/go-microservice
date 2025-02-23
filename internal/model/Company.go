@@ -6,15 +6,15 @@ import (
 
 type Company struct {
 	ID          int64         `json:"id"`
-	Name        string        `json:"name"`
+	Name        string        `json:"name" validate:"required"`
 	Slogan      string        `json:"slogan"`
 	Description string        `json:"description"`
-	LogoURL     string        `json:"logoURL"`
-	Webpage     string        `json:"webpage"`
-	Batch       string        `json:"batch"`
-	Tags        []string      `json:"tags"`
+	LogoURL     string        `json:"logoURL" validate:"url"`
+	Webpage     string        `json:"webpage" validate:"url"`
+	Batch       string        `json:"batch" validate:"required,alphanum"`
+	Tags        []string      `json:"tags" validate:"alpha"`
 	SocialMedia []SocialMedia `json:"socialMedia"`
-	CompanySize int           `json:"companySize"`
+	CompanySize int           `json:"companySize" validate:"required,number,gt=0"`
 	CreatedOn   string        `json:"-"`
 	UpdatedOn   string        `json:"-"`
 	DeletedOn   string        `json:"-"`

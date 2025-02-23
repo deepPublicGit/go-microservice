@@ -11,13 +11,13 @@ const (
 )
 
 type Job struct {
-	ID           int64    `json:"id" validate:"required"`
-	RoleName     string   `json:"roleName"`
-	Description  string   `json:"description"`
-	Experience   int      `json:"experience"`
-	Locations    []string `json:"locations"`
-	RemoteStatus int      `json:"remoteStatus"`
-	SalaryRange  []int    `json:"salaryRange"`
+	ID           int64    `json:"id"`
+	RoleName     string   `json:"roleName" validate:"required,alpha"`
+	Description  string   `json:"description" validate:"required"`
+	Experience   int      `json:"experience" validate:"required,gte=0"`
+	Locations    []string `json:"locations" validate:"alpha"`
+	RemoteStatus int      `json:"remoteStatus" validate:"required,number,gt=0,lte=2"`
+	SalaryRange  []int    `json:"salaryRange" validate:"number,gt=0"`
 	CreatedOn    string   `json:"-"`
 	UpdatedOn    string   `json:"-"`
 	DeleteOn     string   `json:"-"`
