@@ -22,6 +22,24 @@ func (s *Jobs) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 }
 
+func (s *Jobs) GetJobsByID(rw http.ResponseWriter, req *http.Request) {
+	println("GET RECEIVED")
+	encoder := json.NewEncoder(rw)
+	err := encoder.Encode(model.JobList)
+	if err != nil {
+		return
+	}
+}
+
+func (s *Jobs) GetJobsByCompany(rw http.ResponseWriter, req *http.Request) {
+	println("GET RECEIVED")
+	encoder := json.NewEncoder(rw)
+	err := encoder.Encode(model.JobList)
+	if err != nil {
+		return
+	}
+}
+
 func (s *Jobs) GetJobs(rw http.ResponseWriter, req *http.Request) {
 	println("GET RECEIVED")
 	encoder := json.NewEncoder(rw)
@@ -54,5 +72,14 @@ func (s *Jobs) AddJobs(rw http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		s.l.Error("YOLO ERROR", err.Error())
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func (s *Jobs) DeleteJobs(rw http.ResponseWriter, req *http.Request) {
+	println("GET RECEIVED")
+	encoder := json.NewEncoder(rw)
+	err := encoder.Encode(model.JobList)
+	if err != nil {
+		return
 	}
 }

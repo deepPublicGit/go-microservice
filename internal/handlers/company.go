@@ -32,6 +32,26 @@ func (s *Companies) GetCompanies(rw http.ResponseWriter, req *http.Request) {
 
 }
 
+func (s *Companies) GetCompaniesByID(rw http.ResponseWriter, req *http.Request) {
+	println("GET RECEIVED")
+	encoder := json.NewEncoder(rw)
+	err := encoder.Encode(model.CompanyList)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+	}
+
+}
+
+func (s *Companies) GetJobsByCompany(rw http.ResponseWriter, req *http.Request) {
+	println("GET RECEIVED")
+	encoder := json.NewEncoder(rw)
+	err := encoder.Encode(model.CompanyList)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+	}
+
+}
+
 func (s *Companies) AddCompanies(rw http.ResponseWriter, req *http.Request) {
 	println("POST RECEIVED")
 	decoder := json.NewDecoder(req.Body)
@@ -54,4 +74,14 @@ func (s *Companies) AddCompanies(rw http.ResponseWriter, req *http.Request) {
 		s.l.Error("YOLO ERROR", err.Error())
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+func (s *Companies) DeleteCompanies(rw http.ResponseWriter, req *http.Request) {
+	println("DELETE RECEIVED")
+	encoder := json.NewEncoder(rw)
+	err := encoder.Encode(model.CompanyList)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+	}
+
 }
