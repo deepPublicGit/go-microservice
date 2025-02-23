@@ -92,3 +92,7 @@ func getDummySocialMedia(name string) []SocialMedia {
 func AddCompany(req Company) {
 	CompanyList = append(CompanyList, &req)
 }
+
+func DeleteCompany(id int) {
+	CompanyList = append(CompanyList[:id], CompanyList[id+1:]...)
+}

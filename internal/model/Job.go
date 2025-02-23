@@ -52,3 +52,7 @@ var JobList = []*Job{
 func AddJob(req Job) {
 	JobList = append(JobList, &req)
 }
+
+func DeleteJob(id int) {
+	JobList = append(JobList[:id], JobList[id+1:]...)
+}
