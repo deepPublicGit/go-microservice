@@ -15,6 +15,7 @@ type Company struct {
 	Tags        []string      `json:"tags" validate:"alpha"`
 	SocialMedia []SocialMedia `json:"socialMedia"`
 	CompanySize int           `json:"companySize" validate:"required,number,gt=0"`
+	Jobs        []*Job        `json:"jobs"`
 	CreatedOn   string        `json:"-"`
 	UpdatedOn   string        `json:"-"`
 	DeletedOn   string        `json:"-"`
@@ -47,6 +48,7 @@ var CompanyList = []*Company{
 		Tags:        []string{"Engineering", "Stocks & Bonds"},
 		SocialMedia: getDummySocialMedia("alpha"),
 		CompanySize: 10,
+		Jobs:        JobList,
 		CreatedOn:   time.Now().UTC().Format(time.RFC3339),
 		UpdatedOn:   time.Now().UTC().Format(time.RFC3339),
 		DeletedOn:   time.Now().UTC().Format(time.RFC3339),
