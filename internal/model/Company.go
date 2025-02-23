@@ -1,6 +1,7 @@
 package model
 
 import (
+	"github.com/go-playground/validator/v10"
 	"time"
 )
 
@@ -9,13 +10,13 @@ type Company struct {
 	Name        string        `json:"name" validate:"required"`
 	Slogan      string        `json:"slogan"`
 	Description string        `json:"description"`
-	LogoURL     string        `json:"logoURL" validate:"url"`
-	Webpage     string        `json:"webpage" validate:"url"`
+	LogoURL     string        `json:"logoURL" validate:"omitempty,url"`
+	Webpage     string        `json:"webpage" validate:"omitempty,url"`
 	Batch       string        `json:"batch" validate:"required,alphanum"`
-	Tags        []string      `json:"tags" validate:"alpha"`
+	Tags        []string      `json:"tags" validate:"omitempty,alpha"`
 	SocialMedia []SocialMedia `json:"socialMedia"`
 	CompanySize int           `json:"companySize" validate:"required,number,gt=0"`
-	Jobs        []*Job        `json:"jobs"`
+	Jobs        []*Job        `json:"jobs" validate:"dive"`
 	CreatedOn   string        `json:"-"`
 	UpdatedOn   string        `json:"-"`
 	DeletedOn   string        `json:"-"`
@@ -33,7 +34,9 @@ type SocialMedia struct {
 
 type Companies []*Company
 
-func (c *Company) Validate() {
+func (c *Company) Validate() error {
+	validate := validator.New()
+	return validate.Struct(c)
 }
 
 var CompanyList = []*Company{
